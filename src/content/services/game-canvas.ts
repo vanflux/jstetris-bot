@@ -1,14 +1,24 @@
+import { posesMinX, posesMinY } from "../functions";
+import { PieceDetector } from "./piece-detector";
 
 export interface GameCanvasState {
+  width: number;
+  height: number;
   blocks: number[][];
-  fallingPiece?: {x: number, y: number}[];
+  fallingPiece?: {positions: {x: number, y: number}[], type: string, rotation: number, x: number, y: number};
 }
 
 export class GameCanvas {
-  public static capture(): GameCanvasState {
-    const blocks = this.captureBlocks();
+  public static capture(): GameCanvasState | undefined {
+    const { blocks, width, height } = this.captureBlocks();
+    if (!blocks) return;
     const processed = this.processBlocks(blocks);
-    return processed;
+    return {
+      width,
+      height,
+      blocks: processed.blocks,
+      fallingPiece: processed.fallingPiece,
+    };
   }
 
   private static processBlocks(blocks: number[][]) {
@@ -37,12 +47,16 @@ export class GameCanvas {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const found = floodFill(x, y);
-        if (found.length > 0 && found.length <= 4) {
+        if (found.length == 4) {
           for (const position of found) {
             blocks[position.y][position.x] = 0;
           }
+          const piece = PieceDetector.detect(found);
+          if (!piece) continue;
+          const minX = posesMinX(found);
+          const minY = posesMinY(found);
           return {
-            fallingPiece: found,
+            fallingPiece: { positions: found, x: minX, y: minY, ...piece },
             blocks,
           }
         }
@@ -58,13 +72,13 @@ export class GameCanvas {
   private static captureBlocks() {
     const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return [];
+    if (!ctx) return {};
     const {width: canvasWidth, height: canvasHeight} = canvas;
     const boardWidth = 10, boardHeight = 20;
     const blockSizeX = canvasWidth / boardWidth;
     const blockSizeY = canvasHeight / boardHeight;
     const {data} = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-    const state = new Array(boardHeight).fill(undefined).map(_ => new Array(boardWidth).fill(0));
+    const blocks = new Array(boardHeight).fill(undefined).map(_ => new Array(boardWidth).fill(0));
     for (let y = 0; y < boardHeight; y++) {
       for (let x = 0; x < boardWidth; x++) {
         const yOffset = Math.floor((y + 0.5) * boardWidth * blockSizeX * blockSizeY) * 4;
@@ -72,10 +86,10 @@ export class GameCanvas {
         const index = yOffset + xOffset;
         const [r, g, b, a] = data.slice(index, index + 4);
         if (a === 255 && (r > 0 || g > 0 || b > 0)) {
-          state[y][x] = 1;
+          blocks[y][x] = 1;
         }
       }
     }
-    return state;
+    return { blocks, width: boardWidth, height: boardHeight };
   }
 }
