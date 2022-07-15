@@ -1,0 +1,34 @@
+{
+  "name": "web-game-hacking-boilerplate",
+  "version": "1.0.0",
+  "description": "An boilerplate extension made to facilitate game hacking on web.",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dev": "webpack build --config ./webpack.config.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanflux/web-game-hacking-boilerplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vanflux/web-game-hacking-boilerplate/issues"
+  },
+  "homepage": "https://github.com/vanflux/web-game-hacking-boilerplate#readme",
+  "dependencies": {
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-draggable": "^4.4.5",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.7.2",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "ws": "^8.6.0"
+  }
+}
