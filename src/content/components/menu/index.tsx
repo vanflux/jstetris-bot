@@ -14,6 +14,7 @@ export function Menu() {
   useEffect(() => {
     let running = true;
     let lastNextPieceTypes: string[] = [];
+    let expectedBoard: Board;
     new Promise(async () => {
       console.log('Bot loop started');
       while(running) {
@@ -39,6 +40,30 @@ export function Menu() {
 
         const nextPiecesChanged = !compareArrays(lastNextPieceTypes, nextPieceTypes);
         if (nextPiecesChanged) {
+          if (expectedBoard) {
+            const expectedData = Array.from(expectedBoard.data.map(x => x != 0 ? 1 : 0));
+            const curData = board.flat();
+            const isCorrect = compareArrays(expectedData, curData);
+            if (!isCorrect) {
+              console.log('The board doesnt correspond to what the bot predicted!');
+
+              const width = expectedBoard.width;
+
+              const printBoard = (arr: number[]) => {
+                console.log('---------------------------');
+                for (let i = 0; i < arr.length; i += width) {
+                  console.log(arr.slice(i, i + width).join(', '));
+                }
+                console.log('---------------------------');
+              };
+
+              console.log('Expected Table:');
+              printBoard(expectedData);
+              console.log('Current Table:');
+              printBoard(curData);
+            }
+          }
+
           const fallingType = lastNextPieceTypes.shift();
           const fallingX = 3;
           if (fallingType !== undefined) {
@@ -49,7 +74,6 @@ export function Menu() {
             const pieceBuffer = pieceTypesBuffer.map(type => pieces.find(piece => piece.type === type)!);
 
             console.log('Piece Types Buffer', pieceTypesBuffer);
-            console.log('Board flat', board);
             const boardObj = new Board(10, 20, Math.random);
             boardObj.setNextPieces(pieceBuffer);
             boardObj.data = new Uint8Array(board.flat());
@@ -60,6 +84,7 @@ export function Menu() {
               new BoardMoveCalculator(),
             );
             const result = bot.next(boardObj);
+            expectedBoard = result.board;
 
             console.log('Calculation score', result.score);
 
@@ -72,25 +97,26 @@ export function Menu() {
               const rotationPositions = normalizePositions(fallingPieceInfo.rotations[rotationDelta].positions);
               if (comparePositions(expectedPositions, rotationPositions)) break;
             }
-            console.log('Result rotation', result.rotation, 'rotation delta', rotationDelta);
+            const rotationXDelta = posesMinX(fallingPieceInfo.rotations[result.rotation].positions) - posesMinX(fallingPieceInfo.rotations[rotationDelta].positions);
+            console.log('Result rotation', result.rotation, 'rotation delta', rotationDelta, 'rotation X delta', rotationXDelta);
 
             // Calculate X delta (amount of times that the falling piece needs to go to left or right)
             //const targetXOffset = posesMinX(fallingPieceInfo.rotations[rotationDelta].positions);
-            const xDelta = result.x - fallingX;
+            const xDelta = result.x - fallingX + rotationXDelta;
             console.log('Result X', result.x, 'x delta', xDelta); // TODO: Arrumar o calculo, a peça I quando rotacionada com delta 1 e quer ser colocada no X -1 não funciona, ele acaba deslocando 4 para esquerda e cai na posição 1 ao invés de 0
             
-            for (let i = 0; i < rotationDelta; i++) {GameCanvas.rotate(); await sleep(10)}
+            for (let i = 0; i < rotationDelta; i++) {GameCanvas.rotate(); await sleep(60)}
             if (xDelta > 0) {
-              for (let i = 0; i < xDelta; i++) {GameCanvas.moveRight(); await sleep(10)}
+              for (let i = 0; i < xDelta; i++) {GameCanvas.moveRight(); await sleep(40)}
             } else {
-              for (let i = 0; i < -xDelta; i++) {GameCanvas.moveLeft(); await sleep(10)}
+              for (let i = 0; i < -xDelta; i++) {GameCanvas.moveLeft(); await sleep(40)}
             }
-            await sleep(10);
+            await sleep(100);
             GameCanvas.moveDown();
           }
         }
         lastNextPieceTypes = nextPieceTypes!;
-        await sleep(100);
+        await sleep(200);
       }
       console.log('Bot loop ended');
     });

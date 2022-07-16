@@ -84,7 +84,7 @@ export class GameCanvas {
       return positions;
     };
 
-    for (let y = 0; y < height; y++) {
+    for (let y = 0; y < Math.min(height, 5); y++) {
       for (let x = 0; x < width; x++) {
         const positions = floodFill(x, y);
         if (positions.length > 0 && positions.length <= 4) {
