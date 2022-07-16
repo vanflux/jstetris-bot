@@ -4,7 +4,7 @@
   "description": "An boilerplate extension made to facilitate game hacking on web.",
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "webpack build --config ./webpack.config.dev.js"
+    "start": "webpack build --config ./webpack.config.dev.js"
   },
   "repository": {
     "type": "git",

@@ -1,17 +1,21 @@
 import { PieceDetector } from "./piece-detector";
 
-export interface NextPiecesCanvasState {
+export type NextPiecesCanvasState = {
+  success: false,
+  nextPieceTypes?: undefined,
+} | {
+  success: true,
   nextPieceTypes: string[],
 }
 
 export class NextPiecesCanvas {
-  public static capture(): NextPiecesCanvasState | undefined {
+  public static capture(): NextPiecesCanvasState {
     const blocks = this.captureBlocks();
-    if (!blocks) return;
+    if (!blocks) return { success: false };
     return this.processBlocks(blocks);
   }
 
-  private static processBlocks(blocks: number[][]) {
+  private static processBlocks(blocks: number[][]): NextPiecesCanvasState {
     const width = blocks[0]?.length || 0;
     const height = blocks.length;
 
@@ -27,10 +31,10 @@ export class NextPiecesCanvas {
       }
       const piece = PieceDetector.detect(positions);
       if (!piece) continue;
-      nextPieceTypes.push(piece.type);
+      nextPieceTypes.push(piece.type!);
     }
 
-    return { nextPieceTypes };
+    return { success: true, nextPieceTypes };
   }
 
   private static captureBlocks() {
