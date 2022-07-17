@@ -1,6 +1,10 @@
 # JSTris Bot
 
-Integration of [tetris-ai](https://github.com/vanflux/tetris-ai) with JSTris website. 
+Integration of [tetris-ai](https://github.com/vanflux/tetris-ai) with JSTris website.
+
+*Don't play on LIVE matches. I'm not responsible by your actions and consequences! You will be banned!*
+
+Play only on practice mode(only you) or with a friend who KNOWS you are using bot.
 
 Based on [web-game-hacking-boilerplate](https://github.com/vanflux/web-game-hacking-boilerplate.git).
 
