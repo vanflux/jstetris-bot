@@ -4,6 +4,7 @@ import { compareArrays, comparePositions, normalizePositions, posesMinX } from "
 import { CustomDepthCalculator } from "./depth-calculators/custom-depth-calculator";
 import { GameCanvas, GameCanvasFallingPiece } from "./game-canvas";
 import { NextPiecesCanvas } from "./next-pieces-canvas";
+import { PlayerList } from "./player-list";
 
 export class AutoPlay {
   private static running = false;
@@ -49,6 +50,13 @@ export class AutoPlay {
   }
 
   private static async tick() {
+    const playerList = PlayerList.capture();
+    if (playerList.length > 1) {
+      alert('Sorry, only practice mode or games with 1 player are allowed to use auto-play module!');
+      this.stop();
+      return;
+    }
+
     const { success: gameCaptureSuccess, board: boardMatriz, fallingPiece, empty } = GameCanvas.capture();
     if (!gameCaptureSuccess) {
       await sleep(500);
