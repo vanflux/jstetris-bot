@@ -51,6 +51,8 @@ async function chromeExecuteContent() {
   const tabs = await chrome.tabs.query(queryOptions) || [];
   for (const tab of tabs) {
     if (tab.url == undefined) continue;
+    if (!tab.url.includes('jstris.jezevec10.com')) return;
+    
     console.log('[Auto Reload Plugin] Chrome executing content on', tab.title, tab.id);
     try {
       await chrome.scripting.executeScript(

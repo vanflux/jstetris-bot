@@ -1,6 +1,7 @@
 import EventEmitter from "events";
-import { Board, BoardFitness1, BoardMoveCalculator, BoardStatistics, Bot, pieces, sleep } from "tetris-bot";
+import { BasicBoardFitness, Board, BoardMoveCalculator, BoardStatistics, Bot, pieces, sleep } from "tetris-bot";
 import { compareArrays, comparePositions, normalizePositions, posesMinX } from "../functions";
+import { CustomDepthCalculator } from "./depth-calculators/custom-depth-calculator";
 import { GameCanvas, GameCanvasFallingPiece } from "./game-canvas";
 import { NextPiecesCanvas } from "./next-pieces-canvas";
 
@@ -89,8 +90,9 @@ export class AutoPlay {
     
         const bot = new Bot(
           new BoardStatistics(),
-          new BoardFitness1(),
+          new BasicBoardFitness(),
           new BoardMoveCalculator(),
+          new CustomDepthCalculator(),
         );
         const result = bot.next(board);
 

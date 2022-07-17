@@ -6,13 +6,15 @@ const WebSocket = require('ws');
 
 class AutoReloadPlugin {
   constructor({port}) {
-    this.wss = new WebSocket.WebSocketServer({port});
-    this.wss.on('connection', (client) => {
-      console.log('[Auto Reload Plugin] Client connected, sending reload');
-    });
+    this.port = port;
   }
 
   apply(compiler) {
+    this.wss = new WebSocket.WebSocketServer({port: this.port});
+    this.wss.on('connection', (client) => {
+      console.log('[Auto Reload Plugin] Client connected, sending reload');
+    });
+    
     compiler.hooks.done.tap(
       'Auto Reload Plugin',
       (stats) => {
