@@ -1,0 +1,35 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container p {
+  height: 10px;
+  font-size: 14px;
+}
+
+.container div {
+  display: flex;
+  width: 100%;
+}
+
+.container input {
+  display: flex;
+  flex: 1;
+  min-width: 0px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  margin: 0px 4px;
+  background-color: #eeeeee;
+}

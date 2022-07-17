@@ -63,7 +63,6 @@ export class GameCanvas {
     const width = board[0]?.length || 0;
     const height = board.length;
     const already = new Set();
-    let empty = true;
 
     const hashPos = (x: number, y: number) => {
       return y * width + x;
@@ -75,7 +74,6 @@ export class GameCanvas {
       if (already.has(hash)) return positions;
       already.add(hash);
       if (board[y][x] === 0) return positions;
-      empty = false;
       positions.push({x, y});
       floodFill(x, y + 1, positions);
       floodFill(x, y - 1, positions);
@@ -84,6 +82,18 @@ export class GameCanvas {
       return positions;
     };
 
+    // Detect if board is empty
+    let empty = true;
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        if (board[y][x] !== 0) {
+          empty = false;
+          break;
+        }
+      }
+    }
+
+    // Search for falling piece
     for (let y = 0; y < Math.min(height, 5); y++) {
       for (let x = 0; x < width; x++) {
         const positions = floodFill(x, y);

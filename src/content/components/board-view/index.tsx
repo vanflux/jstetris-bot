@@ -43,5 +43,5 @@ export function BoardView({board, fallingPiece}: BoardViewProps) {
     }
   }, [canvasRef, board, fallingPiece]);
 
-  return <canvas ref={canvasRef}></canvas>
+  return <canvas style={{width: 75, height: 150, border: '1px solid #ffffff88'}} ref={canvasRef}></canvas>
 }

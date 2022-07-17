@@ -38,3 +38,10 @@ export function compareArrays<T>(array1: T[], array2: T[]) {
   }
   return true;
 }
+
+export function safeParseInt(defaultNum: number) {
+  return (str: string) => {
+    const parsed = parseInt(str);
+    return isNaN(parsed) ? defaultNum : parsed;
+  };
+}

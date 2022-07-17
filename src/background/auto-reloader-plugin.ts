@@ -17,10 +17,8 @@ function connect() {
       if (data?.data === 'reload') {
         console.log('[Auto Reload Plugin] Reload request');
 
-        //@ts-ignore
         if (typeof chrome !== 'undefined') {
           console.log('[Auto Reload Plugin] Chrome reloading...');
-          //@ts-ignore
           chrome.runtime.reload();
         } else {
           console.error('[Auto Reload Plugin] Unknown browser...');
@@ -43,7 +41,6 @@ function connect() {
 }
 
 async function executeContent() {
-  // @ts-ignore
   if (typeof chrome !== 'undefined') {
     chromeExecuteContent();
   }
@@ -51,13 +48,11 @@ async function executeContent() {
 
 async function chromeExecuteContent() {
   const queryOptions = {};
-  // @ts-ignore
   const tabs = await chrome.tabs.query(queryOptions) || [];
   for (const tab of tabs) {
     if (tab.url == undefined) continue;
     console.log('[Auto Reload Plugin] Chrome executing content on', tab.title, tab.id);
     try {
-      // @ts-ignore
       await chrome.scripting.executeScript(
         {
           target: { tabId: tab.id },
