@@ -1,0 +1,51 @@
+name: Extension Build CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+
+    - name: 'Get Previous tag'
+      id: previoustag
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      with:
+        fallback: 1.0.0
+
+    - name: 'Get next minor version'
+      id: semvers
+      uses: "WyriHaximus/github-action-next-semvers@v1"
+      with:
+        version: ${{ steps.previoustag.outputs.tag }}
+
+    - name: 'Setup node'
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build
+      env:
+        VERSION: ${{ steps.semvers.outputs.minor }}
+
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/prod/extension.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: v${{ steps.semvers.outputs.minor }}
+        body: Version ${{ steps.semvers.outputs.minor }} Released! 🥳

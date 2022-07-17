@@ -1,5 +1,5 @@
 import styles from "./styles.module.css"
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GameCanvasFallingPiece } from "../../services/game-canvas";
 import { BoardView } from "../board-view";
 import { AutoPlay } from "../../services/auto-play";
@@ -11,6 +11,8 @@ export function Menu() {
   const [nextPiecesTypes, setNextPiecesTypes] = useState<string[]>([]);
   const [fallingType, setFallingType] = useState<string>();
   
+  const version = 'v' + (typeof VERSION !== 'undefined' ? VERSION : 'N/A');
+
   const [num, setNum] = useState(0);
   const forceRender = () => setNum(num + 1);
 
@@ -43,7 +45,7 @@ export function Menu() {
 
   return <div className={styles.container}>
     <div className={styles.header}>
-      <p onClick={() => window.open('https://github.com/vanflux/jstetris-bot')}>Jstris Bot</p>
+      <p onClick={() => window.open('https://github.com/vanflux/jstetris-bot')}>Jstris Bot {version}</p>
     </div>
     <div className={styles.content}>
       <NumberInput

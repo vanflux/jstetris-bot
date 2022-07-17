@@ -59,7 +59,18 @@ const commonConfig = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: "public", to: "." },
+        {
+          from: "public",
+          to: ".",
+          transform(content, absoluteFrom) {
+            if (absoluteFrom.endsWith('manifest.json')) {
+              const json = JSON.parse(content);
+              json.version = process.env.VERSION || '1.0.0';
+              content = JSON.stringify(json, null, '\t');
+            }
+            return content;
+          },
+        },
       ],
     }),
   ],
@@ -74,6 +85,7 @@ const productionConfig = {
   plugins: [
     new DefinePlugin({
       AUTO_RELOADER: JSON.stringify(false),
+      VERSION: JSON.stringify(process.env.VERSION),
     }),
     new ZipPlugin({
       path: path.resolve(__dirname, 'build/prod'),
@@ -97,6 +109,7 @@ const developmentConfig = {
     new AutoReloadPlugin({port: 8497}),
     new DefinePlugin({
       AUTO_RELOADER: JSON.stringify(true),
+      VERSION: JSON.stringify('Dev'),
     }),
   ],
 };
