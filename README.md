@@ -10,7 +10,7 @@ Based on [web-game-hacking-boilerplate](https://github.com/vanflux/web-game-hack
 - Open google chrome
 - Go to `chrome://extensions`
 - Enable development mode
-- Load uncompressed extension and pick the unzipped directory
+- Load the uncompressed extension and pick the unzipped directory
 
 # Usage (development)
 
@@ -20,7 +20,8 @@ Based on [web-game-hacking-boilerplate](https://github.com/vanflux/web-game-hack
 - Open google chrome
 - Go to `chrome://extensions`
 - Enable development mode
-- Load uncompressed extension and pick the `build` directory inside project dir
+- Load the uncompressed extension and pick the `build/dev` directory inside project dir
+- If you want the extension hot-reloading working properly open the extension console(`service worker`) and keep it opened on background.
 
 # Demo
 

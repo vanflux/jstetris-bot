@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "JSTetris Bot",
+  "name": "JSTris Bot",
   "version": "1.0.0",
-  "description": "JSTetris Bot",
+  "description": "JSTris Bot",
   "icons": {
     "16": "icon16.png",
     "32": "icon32.png",

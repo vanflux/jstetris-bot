@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require("copy-webpack-plugin");
 const AutoReloadPlugin = require("./webpack-plugins/auto-reload.plugin");
+const ZipPlugin = require('zip-webpack-plugin');
 const { default: merge } = require('webpack-merge');
 const { DefinePlugin } = require('webpack');
 
@@ -8,10 +9,6 @@ const commonConfig = {
   entry: {
     './background': './src/background/index.ts',
     './content': './src/content/index.tsx',
-  },
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: '[name].js',
   },
   module: {
     rules: [
@@ -70,10 +67,21 @@ const commonConfig = {
 
 const productionConfig = {
   mode: 'production',
+  output: {
+    path: path.resolve(__dirname, 'build/prod/raw'),
+    filename: '[name].js',
+  },
   plugins: [
     new DefinePlugin({
       AUTO_RELOADER: JSON.stringify(false),
     }),
+    new ZipPlugin({
+      path: path.resolve(__dirname, 'build/prod'),
+      filename: 'extension.zip',
+      extension: 'zip',
+      pathPrefix: 'jstris-bot',
+      exclude: [/\.txt$/],
+    })
   ],
 };
 
@@ -81,6 +89,10 @@ const developmentConfig = {
   devtool: "inline-source-map",
   watch: true,
   mode: 'development',
+  output: {
+    path: path.resolve(__dirname, 'build/dev'),
+    filename: '[name].js',
+  },
   plugins: [
     new AutoReloadPlugin({port: 8497}),
     new DefinePlugin({

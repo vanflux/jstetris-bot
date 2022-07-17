@@ -43,7 +43,7 @@ export function Menu() {
 
   return <div className={styles.container}>
     <div className={styles.header}>
-      <p>Jstris Bot</p>
+      <p onClick={() => window.open('https://github.com/vanflux/jstetris-bot')}>Jstris Bot</p>
     </div>
     <div className={styles.content}>
       <NumberInput
