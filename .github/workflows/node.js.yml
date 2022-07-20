@@ -2,9 +2,9 @@ name: Extension Build CI
 
 on:
   push:
-    branches: [ "migration-to-vf-ext" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "migration-to-vf-ext" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -56,4 +56,3 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: v${{ steps.semvers.outputs.minor }}
         body: Version ${{ steps.semvers.outputs.minor }} Released! 🥳
-        prerelease: true
