@@ -16,23 +16,42 @@ Play only on practice mode(only you) or with a friend who KNOWS you are using bo
 Based on [web-game-hacking-boilerplate](https://github.com/vanflux/web-game-hacking-boilerplate.git).
 
 # Usage
-- Download latest release
+
+## Chrome
+
+- Download latest release `jstris-bot-chrome.zip`
 - Unzip to some location on your PC
-- Open google chrome
-- Go to `chrome://extensions`
+- Go to url `chrome://extensions`
 - Enable development mode
 - Load the uncompressed extension and pick the unzipped directory
 
-# Usage (development)
+## Firefox
+
+- Download latest release `jstris-bot-firefox.zip`
+- Go to url `about:debugging`
+- Go to `This Firefox`
+- Load temporary add-ons and pick the .zip
+
+# Development
+
+## Setup + Run
 
 - Clone repo
 - Install dependencies: `npm i`
-- Run `npm start`
-- Open google chrome
-- Go to `chrome://extensions`
+- Run `npm start <chrome|firefox>`
+
+## Chrome
+
+- Go to url `chrome://extensions`
 - Enable development mode
 - Load the uncompressed extension and pick the `build/dev` directory inside project dir
 - If you want the extension hot-reloading working properly open the extension console(`service worker`) and keep it opened on background.
+
+## Firefox
+
+- Go to url `about:debugging`
+- Go to `This Firefox`
+- Load temporary add-ons and pick the `build/dev` directory inside project dir
 
 # Demo
 
