@@ -2,9 +2,9 @@ name: Extension Build CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "migration-to-vf-ext" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "migration-to-vf-ext" ]
   workflow_dispatch:
 
 jobs:
@@ -39,13 +39,21 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run build
+
+    - run: npm run build chrome
       env:
         VERSION: ${{ steps.semvers.outputs.minor }}
+    - run: mv build/prod/chrome/extension.zip build/prod/jstris-bot-chrome.zip
+
+    - run: npm run build firefox
+      env:
+        VERSION: ${{ steps.semvers.outputs.minor }}
+    - run: mv build/prod/firefox/jstris-bot.zip build/prod/jstris-bot-firefox.zip
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/prod/extension.zip"
+        artifacts: "build/prod/*.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: v${{ steps.semvers.outputs.minor }}
         body: Version ${{ steps.semvers.outputs.minor }} Released! 🥳
+        prerelease: true

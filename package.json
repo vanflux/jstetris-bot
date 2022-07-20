@@ -1,22 +1,22 @@
 {
-  "name": "web-game-hacking-boilerplate",
+  "name": "jstris-bot",
   "version": "1.0.0",
   "description": "An boilerplate extension made to facilitate game hacking on web.",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack build --mode development",
-    "build": "webpack build --mode production"
+    "start": "vfe start",
+    "build": "vfe build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vanflux/web-game-hacking-boilerplate.git"
+    "url": "git+https://github.com/vanflux/jstetris-bot.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vanflux/web-game-hacking-boilerplate/issues"
+    "url": "https://github.com/vanflux/jstetris-bot/issues"
   },
-  "homepage": "https://github.com/vanflux/web-game-hacking-boilerplate#readme",
+  "homepage": "https://github.com/vanflux/jstetris-bot#readme",
   "dependencies": {
     "@types/node": "^18.0.5",
     "@types/react": "^17.0.2",
@@ -30,6 +30,7 @@
     "tetris-bot": "github:vanflux/tetris-ai",
     "ts-loader": "^9.3.0",
     "typescript": "^4.7.2",
+    "vf-ext-framework": "github:vanflux/vf-ext",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
     "webpack-merge": "^5.8.0",

@@ -1,2 +1,4 @@
 
-if (AUTO_RELOADER) require("./auto-reloader-plugin");
+export async function entry() {
+  console.log('[BackgroundScript] entry from app');
+}
