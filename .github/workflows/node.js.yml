@@ -50,9 +50,7 @@ jobs:
         VERSION: ${{ steps.semvers.outputs.minor }}
     - run: mv build/prod/firefox/jstris-bot.zip build/prod/jstris-bot-firefox.zip
 
-    - uses: microsoft/variable-substitution@v1 
-      with:
-        files: 'RELEASE.md'
+    - run: envsubst < RELEASE.md > RELEASE.md
       env:
         VERSION: ${{ steps.semvers.outputs.minor }}
 
