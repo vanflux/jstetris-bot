@@ -50,6 +50,12 @@ jobs:
         VERSION: ${{ steps.semvers.outputs.minor }}
     - run: mv build/prod/firefox/jstris-bot.zip build/prod/jstris-bot-firefox.zip
 
+    - uses: microsoft/variable-substitution@v1 
+      with:
+        files: 'RELEASE.md'
+      env:
+        VERSION: ${{ steps.semvers.outputs.minor }}
+
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build/prod/*.zip"
