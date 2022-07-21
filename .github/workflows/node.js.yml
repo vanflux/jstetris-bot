@@ -55,4 +55,4 @@ jobs:
         artifacts: "build/prod/*.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: v${{ steps.semvers.outputs.minor }}
-        body: Version ${{ steps.semvers.outputs.minor }} Released! 🥳
+        bodyFile: RELEASE.md

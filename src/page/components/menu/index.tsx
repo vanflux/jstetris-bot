@@ -4,6 +4,7 @@ import { GameCanvasFallingPiece } from "../../services/game-canvas";
 import { BoardView } from "../board-view";
 import { AutoPlay } from "../../services/auto-play";
 import { NumberInput } from "../number-input";
+import { unfocusGame } from "../../tweaks/game";
 
 export function Menu() {
   const [board, setBoard] = useState<number[][]>();
@@ -43,7 +44,7 @@ export function Menu() {
     };
   }, []);
 
-  return <div className={styles.container}>
+  return <div onClick={() => unfocusGame()} className={styles.container}>
     <div className={styles.header}>
       <p onClick={() => window.open('https://github.com/vanflux/jstetris-bot')}>Jstris Bot {version}</p>
     </div>
@@ -52,6 +53,7 @@ export function Menu() {
         label='Move delay:'
         value={moveDelay}
         min={10}
+        max={2000}
         step={10}
         onChange={setMoveDelay}
       ></NumberInput>
@@ -59,6 +61,7 @@ export function Menu() {
         label='Rotation delay:'
         value={rotationDelay}
         min={10}
+        max={2000}
         step={10}
         onChange={setRotationDelay}
       ></NumberInput>
@@ -66,6 +69,7 @@ export function Menu() {
         label='Pieces delay:'
         value={piecesDelay}
         min={10}
+        max={2000}
         step={10}
         onChange={setPiecesDelay}
       ></NumberInput>
