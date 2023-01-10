@@ -5,7 +5,7 @@
 </p>
 
 ![](https://img.shields.io/github/v/release/vanflux/jstetris-bot)
-![](https://img.shields.io/github/workflow/status/vanflux/jstetris-bot/Extension%20Build%20CI)
+![](https://img.shields.io/github/actions/workflow/status/vanflux/jstetris-bot/node.js.yml?branch=main)
 
 Integration of [tetris-ai](https://github.com/vanflux/tetris-ai) with JSTris website.
 
