@@ -1,0 +1,40 @@
+name: Full
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - name: Get tag
+      uses: olegtarasov/get-tag@v2.1.2
+      id: tagName
+      with:
+        tagRegex: "v(.*)"
+    - name: 'Setup node'
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build chrome
+      env:
+        VERSION: ${{ steps.tagName.outputs.tag }}
+    - run: mv build/prod/chrome/extension.zip build/prod/jstris-bot-chrome.zip
+    - run: npm run build firefox
+      env:
+        VERSION: ${{ steps.tagName.outputs.tag }}
+    - run: mv build/prod/firefox/jstris-bot.zip build/prod/jstris-bot-firefox.zip
+    - run: envsubst < RELEASE.md > NEW_RELEASE.md
+      env:
+        VERSION: ${{ steps.tagName.outputs.tag }}
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/prod/*.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: v${{ steps.tagName.outputs.tag }}
+        bodyFile: NEW_RELEASE.md
