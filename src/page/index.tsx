@@ -4,10 +4,12 @@ import './styles.css';
 import { App } from './components/app';
 import { disableWebGl } from './tweaks/disable-webgl';
 import { hookGameInstance } from './tweaks/game';
+import { imageCrossOriginAnonymous } from './tweaks/image-cross-origin-anonymous';
 
 export async function immediateEntry() {
   console.log('[PageScript] immediateEntry from app');
   disableWebGl();
+  imageCrossOriginAnonymous();
 }
 
 export async function pageLoadedEntry() {
